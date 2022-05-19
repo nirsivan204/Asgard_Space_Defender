@@ -10,7 +10,7 @@ public class EffectBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timeLived >= lifeSpan)
+        if (lifeSpan > 0 && timeLived >= lifeSpan)
         {
             Destroy(gameObject);
         }

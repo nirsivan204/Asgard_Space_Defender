@@ -50,6 +50,7 @@ public abstract class AbstractShip : MonoBehaviour, IDamagable, IShooter
     public virtual void kill()
     {
         gameMGR.particleMGR.Play_Effect(ParticleMGR.ParticleTypes.Explosion,transform.position);
+        print("kill");
         Destroy(gameObject);
     }
 

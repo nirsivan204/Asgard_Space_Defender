@@ -11,9 +11,9 @@ public class CannonBullet : AbstractBullet
         heading = startingHeading;
         rb.velocity = startingHeading * (speed);
     }*/
-    public override void init(float bulletSpeed,Vector3 direction,GameObject shooter)
+/*    public override void init(float bulletSpeed,Vector3 direction,GameObject shooter)
     {
         base.init(bulletSpeed,direction,shooter);
         //rb.velocity = (speed + Vector3.Dot((direction).normalized,weaponVelocityAtShoot))* (direction).normalized; // not really needed
-    }
+    }*/
 }

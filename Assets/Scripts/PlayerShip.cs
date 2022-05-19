@@ -7,8 +7,9 @@ public class PlayerShip : AbstractShip
     [SerializeField] PlayerController playerController;
     [SerializeField] Transform mesh;
     [SerializeField] Transform heading;
-    public override void init(int health)
+    public void init(int health, PlayerController controller)
     {
+        playerController = controller;
         inversionFactor = -1;
         playerController.fireEvent.AddListener(shoot);
         base.init(health);
@@ -45,5 +46,16 @@ public class PlayerShip : AbstractShip
     protected override void Aim()
     {
         weapon.Heading.position = weapon.transform.position + transform.up;
+    }
+
+
+    public void OnCollisonEnter(Collision other)
+    {
+        print("collide");
+/*        IDamagable attribute = other.gameObject.GetComponent(typeof(IDamagable)) as IDamagable;
+        if (attribute != null)
+        {
+            attribute.hurt(damage);
+        }*/
     }
 }

@@ -7,6 +7,7 @@ public abstract class AbstractWeapon : MonoBehaviour, IShooter
     [SerializeField] AbstractBullet bullet;
     [SerializeField] protected Transform heading;
     protected AbstractBullet lastBullet;
+    protected int damage;
 
     public Transform Heading { get => heading; set => heading = value; }
 

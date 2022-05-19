@@ -12,6 +12,9 @@ public class AstroidMGR : MonoBehaviour
     [SerializeField] GameObject astroid;
     [SerializeField] List<Vector3> createdAroundPosList;
     [SerializeField] float distanceRequiredToDelete;
+    [SerializeField] float minimumVelocity;
+    [SerializeField] float maximumVelocity;
+    [SerializeField] int astroidDamage;
     public void createAstroidsAroundPlayer()
     {
         for(int i = 0; i < NumberOfAstroidsToCreate; i++)
@@ -22,7 +25,7 @@ public class AstroidMGR : MonoBehaviour
                 randomPos = playerTransform.position + Random.insideUnitSphere * creationRadius;
 
             } while (Vector3.Distance(randomPos, playerTransform.position) < innerCreationRadius);
-            Instantiate(astroid, randomPos, Quaternion.Euler(Random.insideUnitSphere));
+            Instantiate(astroid, randomPos, Quaternion.Euler(Random.insideUnitSphere)).GetComponent<Astroid>().init(astroidDamage);
         }
         createdAroundPosList.Add(playerTransform.position);
 
@@ -30,7 +33,10 @@ public class AstroidMGR : MonoBehaviour
 
     public void Start()
     {
-        //createAstroidsAroundPlayer();
+        if (distanceRequiredToDelete < creationRadius)
+        {
+            print("error: distanceRequiredToDelete < creationRadius");
+        }
     }
 
     public void Update()

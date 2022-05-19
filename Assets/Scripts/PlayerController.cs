@@ -9,8 +9,10 @@ public class PlayerController: MonoBehaviour
 {
     public float movementX;
     public float movementY;
-    public UnityEvent fireEvent;
     public float movementZ;
+
+    public UnityEvent fireEvent;
+    public UnityEvent changePOVEvent;
 
     private void OnMove(InputValue movementValue)
     {
@@ -25,8 +27,8 @@ public class PlayerController: MonoBehaviour
         fireEvent.Invoke();
     }
 
-    internal Vector2 getLookPosition()
+    private void OnChangePOV()
     {
-        throw new NotImplementedException();
+        changePOVEvent.Invoke();
     }
 }
