@@ -8,13 +8,13 @@ public class EnemyShip : AbstractShip
     [SerializeField] float range;
     [SerializeField] protected GameObject Target;
 
-    protected override void FixedUpdate()
+    protected void FixedUpdate()
     {
-        base.FixedUpdate();
+        //base.FixedUpdate();
         if (isTargetNearby())
         {
             Aim();
-            shoot();
+            //shoot();
 
         }
     }

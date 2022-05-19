@@ -5,21 +5,41 @@ using UnityEngine;
 public class PlayerShip : AbstractShip
 {
     [SerializeField] PlayerController playerController;
+    [SerializeField] Transform mesh;
+    [SerializeField] Transform heading;
     public override void init(int health)
     {
         inversionFactor = -1;
         playerController.fireEvent.AddListener(shoot);
         base.init(health);
     }
-    public void Start()
-    {
-        init(100);
-    }
-    protected override void FixedUpdate()
+
+    protected void FixedUpdate()
     {
         movementY = playerController.movementY;
         movementX = playerController.movementX;
-        base.FixedUpdate();
+        movementZ = playerController.movementZ;
+        heading.transform.localPosition = Vector3.MoveTowards(heading.transform.localPosition,new Vector3(movementX, heading.localPosition.y, movementY),Time.fixedDeltaTime*3);
+        mesh.LookAt(heading);
+/*        if(transform.position.magnitude > gameMGR.ArenaRadius)
+        {
+            transform.position = -transform.position;
+        }*/
+        //base.FixedUpdate();
+    }
+    float activeForwardSpeed;
+    public float accel = 10;
+
+    public void Update()
+    {
+        //mouseDistance = new Vector2(lookInput)
+        activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, (1+movementZ) * speed, accel * Time.deltaTime);
+        transform.Rotate(movementY * turnRate * Time.deltaTime, 0,-movementX * turnRate * Time.deltaTime, Space.Self);
+        //print(movementZ);
+        rb.AddForce(transform.up * activeForwardSpeed);
+        //print("forwardspeed = " + rb.velocity);
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+
     }
 
     protected override void Aim()

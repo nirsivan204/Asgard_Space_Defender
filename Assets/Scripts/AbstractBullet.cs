@@ -34,7 +34,6 @@ public class AbstractBullet : MonoBehaviour
         if(!ReferenceEquals(other.gameObject,shooter))
         {
             IDamagable attribute = other.gameObject.GetComponent(typeof(IDamagable)) as IDamagable;
-            print("nir");
             if (attribute != null)
             {
                 attribute.hurt(damage);

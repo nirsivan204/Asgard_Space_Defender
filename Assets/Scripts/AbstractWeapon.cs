@@ -21,7 +21,7 @@ public abstract class AbstractWeapon : MonoBehaviour, IShooter
 
     public virtual void shoot()
     {
-        print("shoot");
+        //print("shoot");
         lastBullet =  Instantiate(bullet, transform.position, transform.rotation);
     }
 }
