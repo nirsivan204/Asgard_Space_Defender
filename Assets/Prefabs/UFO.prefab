@@ -76,9 +76,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f9004aa8e6ab5a44bd8186a44dd8539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 3291252703824821333, guid: c8052641cd29a5746a5bf83272aaa1e3, type: 3}
   heading: {fileID: 200743892}
-  shootingSpeed: 200
+  damage: 1
+  fireRate: 0.1
+  shootingSpeed: 400
+  bullet: {fileID: 3291252703824821333, guid: c8052641cd29a5746a5bf83272aaa1e3, type: 3}
 --- !u!1 &1711461364
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,6 +112,37 @@ Transform:
   - {fileID: 400416870}
   m_Father: {fileID: 6881033905794202847}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1011495876572244015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7625125331825724630}
+  m_Layer: 0
+  m_Name: Heading
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7625125331825724630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011495876572244015}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 5.08}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6881033905794202847}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2214637746686648895
 GameObject:
@@ -260,6 +293,7 @@ Transform:
   m_Children:
   - {fileID: 2433786452997912802}
   - {fileID: 1711461365}
+  - {fileID: 7625125331825724630}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -275,16 +309,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9de439930c4f274d89bde98b882551c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  maxSpeed: 0
+  speed: 3
+  maxSpeed: 20
   rb: {fileID: 6878979960249949029}
   forwardSpeed: 0
   weapon: {fileID: 400416871}
   turnRate: 0
-  Target: {fileID: 0}
   health: 0
   maxHealth: 0
+  gameMGR: {fileID: 0}
+  mesh: {fileID: 2433786452997912802}
+  heading: {fileID: 7625125331825724630}
+  engineForce: {x: 0, y: 0, z: 0}
   range: 200
+  TargetShip: {fileID: 0}
+  offsetFactor: 20
+  Target: {fileID: 0}
 --- !u!54 &6878979960249949029
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -12,13 +12,15 @@ public class GameMGR : MonoBehaviour
     [SerializeField] UIMGR uiMGR;
     int numOfKills;
     [SerializeField] int killsToWin;
+    [SerializeField] AstroidMGR astroidMGR;
+    [SerializeField] EnemiesSpawner enemiesSpawner;
 
     //public float ArenaRadius { get => arenaRadius; set => arenaRadius = value; }
 
     private void Start()
     {
         playerController.changePOVEvent.AddListener(ChangePointOfView);
-        player.init(100, playerController);
+        player.init(10000, playerController);
     }
 
     private void ChangePointOfView()

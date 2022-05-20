@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IInitiable<T>
+public class EnemiesSpawner : AbstractSpawner
 {
-    public void init(T parameter);
+    
 }

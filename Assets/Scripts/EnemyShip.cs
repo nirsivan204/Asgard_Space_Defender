@@ -6,35 +6,69 @@ using UnityEngine;
 public class EnemyShip : AbstractShip
 {
     [SerializeField] float range;
-    [SerializeField] protected GameObject Target;
+    [SerializeField] protected GameObject TargetShip;
+    Vector3 targetPos;
+    [SerializeField] float offsetFactor;
+    [SerializeField] private float avoidanceRadius;
+    [SerializeField] private float avoidanceFactor;
+    [SerializeField] private float targetProximityFactor;
 
-    protected void FixedUpdate()
+    protected override void FixedUpdate()
     {
-        //base.FixedUpdate();
+        CalculateNextMovement();
         if (isTargetNearby())
         {
             Aim();
-            //shoot();
+            shoot();
 
         }
+        base.FixedUpdate();
+
     }
+    protected override void Update()
+    {
+        base.Update();
+    }
+
+    private void CalculateNextMovement()
+    {
+        targetPos = TargetShip.transform.position + (transform.position - TargetShip.transform.position).normalized * offsetFactor ;
+        print(targetPos);
+        Vector3 AvoidanceForce =  CalculateObstacleAvoidanceForce();
+
+        engineForce = ((targetPos - transform.position) * targetProximityFactor  + AvoidanceForce) *speed;
+    }
+
+    private Vector3 CalculateObstacleAvoidanceForce()
+    {
+        Vector3 totalForce = Vector3.zero;
+        Collider[] collidersInRegion = Physics.OverlapSphere(transform.position, avoidanceRadius);
+        foreach(Collider col in collidersInRegion)
+        {
+            if (!ReferenceEquals(col.gameObject, TargetShip.gameObject))
+            {
+                totalForce += (transform.position - col.transform.position) * avoidanceFactor;
+            }
+        }
+        return totalForce;
+    }
+
     private void Start()
     {
         init(1);
     }
     private bool isTargetNearby()
     {
-        return Vector3.Distance(transform.position, Target.transform.position) <= range;
+        return Vector3.Distance(transform.position, TargetShip.transform.position) <= range;
     }
 
     protected override void Aim()
     {
-        weapon.Heading.position = (weapon.transform.position + Target.transform.position) / 2;
+        weapon.Heading.position = (weapon.transform.position + TargetShip.transform.position) / 2;
     }
 
     public override void kill()
     {
-        print("kill");
         base.kill();
     }
 }

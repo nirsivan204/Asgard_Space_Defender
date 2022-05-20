@@ -13,6 +13,9 @@ public class PlayerController: MonoBehaviour
 
     public UnityEvent fireEvent;
     public UnityEvent changePOVEvent;
+   // int inversionFactor = -1;
+
+    //public int InversionFactor { get => inversionFactor; set => inversionFactor = value; }
 
     private void OnMove(InputValue movementValue)
     {

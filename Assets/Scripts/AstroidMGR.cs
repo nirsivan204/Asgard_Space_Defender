@@ -2,34 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AstroidMGR : MonoBehaviour
+public class AstroidMGR : AbstractSpawner
 {
-    public Transform playerTransform;
-    [SerializeField] float creationRadius;
-    [SerializeField] float innerCreationRadius;
-    [SerializeField] float distanceRequiredToCreate;
+    [SerializeField] float distanceRequiredToReCreate;
     [SerializeField] int NumberOfAstroidsToCreate;
-    [SerializeField] GameObject astroid;
     [SerializeField] List<Vector3> createdAroundPosList;
     [SerializeField] float distanceRequiredToDelete;
     [SerializeField] float minimumVelocity;
     [SerializeField] float maximumVelocity;
     [SerializeField] int astroidDamage;
-    public void createAstroidsAroundPlayer()
-    {
-        for(int i = 0; i < NumberOfAstroidsToCreate; i++)
-        {
-            Vector3 randomPos;
-            do
-            {
-                randomPos = playerTransform.position + Random.insideUnitSphere * creationRadius;
-
-            } while (Vector3.Distance(randomPos, playerTransform.position) < innerCreationRadius);
-            Instantiate(astroid, randomPos, Quaternion.Euler(Random.insideUnitSphere)).GetComponent<Astroid>().init(astroidDamage);
-        }
-        createdAroundPosList.Add(playerTransform.position);
-
-    }
+    [SerializeField] float minSize;
+    [SerializeField] float maxSize;
 
     public void Start()
     {
@@ -53,13 +36,19 @@ public class AstroidMGR : MonoBehaviour
 
         foreach (Vector3 pos in createdAroundPosList)
         {
-            if (Vector3.Distance(playerTransform.position, pos)< distanceRequiredToCreate)
+            if (Vector3.Distance(playerTransform.position, pos)< distanceRequiredToReCreate)
             {
                 return;
             }
 
         }
-        createAstroidsAroundPlayer();
+        List<GameObject> astroidsCreated;
+        SpawnAroundPlayer(NumberOfAstroidsToCreate,out astroidsCreated);
+        foreach(GameObject astroid in astroidsCreated)
+        {
+            astroid.GetComponent<Astroid>().init(astroidDamage,Random.Range(minSize,maxSize));
+        }
+        createdAroundPosList.Add(playerTransform.position);
     }
 
     private void deleteAstroidsInRegion(Vector3 centerOfRegion)

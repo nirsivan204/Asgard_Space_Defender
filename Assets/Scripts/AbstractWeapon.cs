@@ -4,10 +4,11 @@ using UnityEngine;
 
 public abstract class AbstractWeapon : MonoBehaviour, IShooter
 {
-    [SerializeField] AbstractBullet bullet;
     [SerializeField] protected Transform heading;
-    protected AbstractBullet lastBullet;
-    protected int damage;
+    [SerializeField] protected int damage;
+    [SerializeField] protected float fireRate;
+    protected bool canShoot = true;
+    float fireRateTimer;
 
     public Transform Heading { get => heading; set => heading = value; }
 
@@ -16,13 +17,24 @@ public abstract class AbstractWeapon : MonoBehaviour, IShooter
 
     }
 
+    public void Update()
+    {
+        if (fireRateTimer > fireRate)
+        {
+            canShoot = true;
+        }
+        fireRateTimer += Time.deltaTime;
+    }
+
+
     public void reload()
     {
+        canShoot = false;
+        fireRateTimer = 0;
     }
 
     public virtual void shoot()
     {
-        //print("shoot");
-        lastBullet =  Instantiate(bullet, transform.position, transform.rotation);
+        reload();
     }
 }
