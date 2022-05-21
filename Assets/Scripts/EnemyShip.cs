@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyShip : AbstractShip
 {
     [SerializeField] float range;
-    [SerializeField] protected GameObject TargetShip;
+    [SerializeField] protected PlayerShip TargetShip;
     Vector3 targetPos;
     [SerializeField] float offsetFactor;
     [SerializeField] private float avoidanceRadius;
@@ -25,6 +25,14 @@ public class EnemyShip : AbstractShip
         base.FixedUpdate();
 
     }
+
+    public void init(PlayerShip playerShip, int health)
+    {
+        this.TargetShip = playerShip;
+        base.init(health);
+
+    }
+
     protected override void Update()
     {
         base.Update();
@@ -53,10 +61,6 @@ public class EnemyShip : AbstractShip
         return totalForce;
     }
 
-    private void Start()
-    {
-        init(1);
-    }
     private bool isTargetNearby()
     {
         return Vector3.Distance(transform.position, TargetShip.transform.position) <= range;
@@ -67,8 +71,4 @@ public class EnemyShip : AbstractShip
         weapon.Heading.position = (weapon.transform.position + TargetShip.transform.position) / 2;
     }
 
-    public override void kill()
-    {
-        base.kill();
-    }
 }

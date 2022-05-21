@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class AbstractShip : MonoBehaviour, IDamagable, IShooter
 {
@@ -17,8 +18,8 @@ public abstract class AbstractShip : MonoBehaviour, IDamagable, IShooter
     [SerializeField] protected GameMGR gameMGR;
     [SerializeField] protected Transform mesh;
     [SerializeField] protected Transform heading;
-    [SerializeField] protected Vector3 engineForce;
-
+    protected Vector3 engineForce;
+    public UnityEvent OnKillEvent;
     public void heal(int amount)
     {
         if (health + amount > maxHealth)
@@ -34,7 +35,7 @@ public abstract class AbstractShip : MonoBehaviour, IDamagable, IShooter
 
     public void hurt(int amount)
     {
-        health -= amount;
+         health -= amount;
         if (health <= 0)
         {
             kill();
@@ -46,7 +47,7 @@ public abstract class AbstractShip : MonoBehaviour, IDamagable, IShooter
         mesh.LookAt(heading);
     }
 
-    public virtual void init(int health)
+    protected void init(int health)
     {
         Aim();
         weapon.init(this);
@@ -58,6 +59,7 @@ public abstract class AbstractShip : MonoBehaviour, IDamagable, IShooter
     {
         gameMGR.particleMGR.Play_Effect(ParticleMGR.ParticleTypes.Explosion,transform.position);
         print("kill");
+        OnKillEvent.Invoke();
         Destroy(gameObject);
     }
 

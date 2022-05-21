@@ -1,8 +1,68 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemiesSpawner : AbstractSpawner
 {
-    
+    private int timeBetweenSpawns;
+    private int totalAliveEnemies;
+    private int MaxNumOfEnemies;
+    private int enemyHealth;
+    private IEnumerator spawningCoroutine;
+    private int enemiesPerSpawn;
+    private PlayerShip playerShip;
+
+    public UnityEvent OnEnemyDestroyed { get; } = new UnityEvent();
+
+
+    public void init(PlayerShip player,int timeBetweenSpawns, int MaxNumOfEnemies,int enemyHealth, int enemiesPerSpawn)
+    {
+        this.timeBetweenSpawns = timeBetweenSpawns;
+        this.MaxNumOfEnemies = MaxNumOfEnemies;
+        this.enemyHealth = enemyHealth;
+        this.enemiesPerSpawn = enemiesPerSpawn;
+        this.playerShip = player;
+    }
+    private void EnemyDestroyed()
+    {
+        OnEnemyDestroyed.Invoke();
+        totalAliveEnemies--;
+    }
+
+    public override void StartSpawning()
+    {
+        base.StartSpawning();
+        spawningCoroutine = makeEnemies();
+        StartCoroutine(spawningCoroutine);
+
+    }
+
+    public override void StopSpawning()
+    {
+        base.StopSpawning();
+        StopCoroutine(spawningCoroutine);
+    }
+
+
+    IEnumerator makeEnemies()
+    {
+        while (isSpawning)
+        {
+
+            if (totalAliveEnemies < MaxNumOfEnemies)
+            {
+                List<GameObject> enemiesCreated;
+                SpawnAroundPlayer(Mathf.Min(enemiesPerSpawn, MaxNumOfEnemies - totalAliveEnemies), out enemiesCreated);
+                foreach (GameObject enemy in enemiesCreated)
+                {
+                    EnemyShip enemyClone = enemy.GetComponent<EnemyShip>();
+                    enemyClone.init(playerShip, enemyHealth);
+                    enemyClone.OnKillEvent.AddListener(EnemyDestroyed);
+                    totalAliveEnemies++;
+                }
+            }
+            yield return new WaitForSeconds(timeBetweenSpawns);
+        }
+    }
 }

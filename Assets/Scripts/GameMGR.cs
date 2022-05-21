@@ -14,13 +14,31 @@ public class GameMGR : MonoBehaviour
     [SerializeField] int killsToWin;
     [SerializeField] AstroidMGR astroidMGR;
     [SerializeField] EnemiesSpawner enemiesSpawner;
+    [SerializeField] private int MaxNumOfEnemies;
+    [SerializeField] private int enemyHealth;
+    [SerializeField] private int enemiesPerSpawn;
+    [SerializeField] private int timeBetweenSpawns;
+
+    [SerializeField] float minimumVelocity;
+    [SerializeField] float maximumVelocity;
+    [SerializeField] float minSize;
+    [SerializeField] float maxSize;
 
     //public float ArenaRadius { get => arenaRadius; set => arenaRadius = value; }
 
     private void Start()
     {
+        GameInit();
+    }
+
+    private void GameInit()
+    {
+        this.player.init(10000, playerController);
         playerController.changePOVEvent.AddListener(ChangePointOfView);
-        player.init(10000, playerController);
+        enemiesSpawner.init(this.player,timeBetweenSpawns,MaxNumOfEnemies,enemyHealth,enemiesPerSpawn);
+        //astroidMGR.init(minimumVelocity,maximumVelocity,minSize,maxSize);
+        enemiesSpawner.OnEnemyDestroyed.AddListener(onEnemyShipDestroyed);
+        enemiesSpawner.StartSpawning();
     }
 
     private void ChangePointOfView()

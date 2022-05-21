@@ -10,9 +10,18 @@ public class AstroidMGR : AbstractSpawner
     [SerializeField] float distanceRequiredToDelete;
     [SerializeField] float minimumVelocity;
     [SerializeField] float maximumVelocity;
-    [SerializeField] int astroidDamage;
+    int astroidDamage = int.MaxValue;
     [SerializeField] float minSize;
     [SerializeField] float maxSize;
+
+    public void init(float minimumVelocity,float maximumVelocity,float minSize, float maxSize)
+    {
+        this.minimumVelocity = minimumVelocity;
+        this.maximumVelocity = maximumVelocity;
+        this.minSize = minSize;
+        this.maxSize = maxSize;
+    }
+
 
     public void Start()
     {
@@ -24,31 +33,34 @@ public class AstroidMGR : AbstractSpawner
 
     public void Update()
     {
-                createdAroundPosList.RemoveAll(item =>
-                    {
-                        if (Vector3.Distance(playerTransform.position, item) <= distanceRequiredToDelete)
-                        {
-                            return false;
-                        }
-                        deleteAstroidsInRegion(item);
-                        return true;
-                    });
-
-        foreach (Vector3 pos in createdAroundPosList)
+        if (isSpawning)
         {
-            if (Vector3.Distance(playerTransform.position, pos)< distanceRequiredToReCreate)
+            createdAroundPosList.RemoveAll(item =>
             {
-                return;
-            }
+                if (Vector3.Distance(playerTransform.position, item) <= distanceRequiredToDelete)
+                {
+                    return false;
+                }
+                deleteAstroidsInRegion(item);
+                return true;
+            });
 
+            foreach (Vector3 pos in createdAroundPosList)
+            {
+                if (Vector3.Distance(playerTransform.position, pos) < distanceRequiredToReCreate)
+                {
+                    return;
+                }
+
+            }
+            List<GameObject> astroidsCreated;
+            SpawnAroundPlayer(NumberOfAstroidsToCreate, out astroidsCreated);
+            foreach (GameObject astroid in astroidsCreated)
+            {
+                astroid.GetComponent<Astroid>().init(astroidDamage, Random.Range(minSize, maxSize));
+            }
+            createdAroundPosList.Add(playerTransform.position);
         }
-        List<GameObject> astroidsCreated;
-        SpawnAroundPlayer(NumberOfAstroidsToCreate,out astroidsCreated);
-        foreach(GameObject astroid in astroidsCreated)
-        {
-            astroid.GetComponent<Astroid>().init(astroidDamage,Random.Range(minSize,maxSize));
-        }
-        createdAroundPosList.Add(playerTransform.position);
     }
 
     private void deleteAstroidsInRegion(Vector3 centerOfRegion)

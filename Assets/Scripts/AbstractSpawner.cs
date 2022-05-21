@@ -8,6 +8,7 @@ public class AbstractSpawner : MonoBehaviour
     [SerializeField] protected float innerCreationRadius;
     [SerializeField] protected float creationRadius;
     [SerializeField] protected GameObject objectToSpawn;
+    protected bool isSpawning = false;
 
     public void SpawnAroundPlayer(int numberOfElementToCreate, out List<GameObject> elements)
     {
@@ -28,6 +29,15 @@ public class AbstractSpawner : MonoBehaviour
             elements.Add(clone);
         }
 
+    }
+    public virtual void StopSpawning()
+    {
+        isSpawning = false;
+    }
+
+    public virtual void StartSpawning()
+    {
+        isSpawning = true;
     }
 
 
