@@ -70,11 +70,13 @@ public class GameMGR : MonoBehaviour
 
     public void Lose()
     {
-
+        uiMGR.OnLevelFinish(false);
     }
 
     public void Win()
     {
-
+        uiMGR.OnLevelFinish(true);
     }
+
+
 }
