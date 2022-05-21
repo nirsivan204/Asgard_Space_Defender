@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerShip : AbstractShip
 {
     [SerializeField] PlayerController playerController;
+    [SerializeField] float turnRate;
     float movementX;
     float movementY;
     float movementZ;

@@ -1703,7 +1703,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1773206335
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1920,6 +1920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   killsText: {fileID: 1740838336}
+  winLoseText: {fileID: 0}
 --- !u!1001 &1844686865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2758,8 +2759,6 @@ MonoBehaviour:
   rb: {fileID: 950775632332861606}
   forwardSpeed: 5
   weapon: {fileID: 1574503053}
-  turnRate: 80
-  health: 0
   maxHealth: 0
   gameMGR: {fileID: 709596374}
   mesh: {fileID: 6869652399431670034}
@@ -2768,6 +2767,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   playerController: {fileID: 2027608300}
+  turnRate: 80
   accel: 200
 --- !u!54 &950775632332861606
 Rigidbody:
@@ -2909,18 +2909,18 @@ PrefabInstance:
     - target: {fileID: 2048149618650721757, guid: d7a0daa57cad3d94caf1fe5d9306492f,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850999885109255608, guid: d7a0daa57cad3d94caf1fe5d9306492f,
+        type: 3}
+      propertyPath: speed
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4850999885109255608, guid: d7a0daa57cad3d94caf1fe5d9306492f,
         type: 3}
       propertyPath: gameMGR
       value: 
       objectReference: {fileID: 709596374}
-    - target: {fileID: 4850999885109255608, guid: d7a0daa57cad3d94caf1fe5d9306492f,
-        type: 3}
-      propertyPath: TargetShip
-      value: 
-      objectReference: {fileID: 1389525763178046959}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7a0daa57cad3d94caf1fe5d9306492f, type: 3}
 --- !u!23 &5701210410482868861

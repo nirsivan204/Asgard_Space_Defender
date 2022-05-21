@@ -12,8 +12,7 @@ public abstract class AbstractShip : MonoBehaviour, IDamagable, IShooter
     [SerializeField] protected Rigidbody rb;
     [SerializeField] protected float forwardSpeed;
     [SerializeField] protected AbstractWeapon weapon;
-    [SerializeField] protected float turnRate;
-    [SerializeField] protected int health;
+    protected int health;
     [SerializeField] protected int maxHealth;
     [SerializeField] protected GameMGR gameMGR;
     [SerializeField] protected Transform mesh;

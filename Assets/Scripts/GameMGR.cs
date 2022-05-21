@@ -35,7 +35,7 @@ public class GameMGR : MonoBehaviour
     {
         this.player.init(10000, playerController);
         playerController.changePOVEvent.AddListener(ChangePointOfView);
-        enemiesSpawner.init(this.player,timeBetweenSpawns,MaxNumOfEnemies,enemyHealth,enemiesPerSpawn);
+        enemiesSpawner.init(this.player,this,timeBetweenSpawns,MaxNumOfEnemies,enemyHealth,enemiesPerSpawn);
         //astroidMGR.init(minimumVelocity,maximumVelocity,minSize,maxSize);
         enemiesSpawner.OnEnemyDestroyed.AddListener(onEnemyShipDestroyed);
         enemiesSpawner.StartSpawning();

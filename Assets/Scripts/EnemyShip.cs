@@ -26,9 +26,10 @@ public class EnemyShip : AbstractShip
 
     }
 
-    public void init(PlayerShip playerShip, int health)
+    public void init(PlayerShip playerShip, GameMGR gameMGR, int health)
     {
         this.TargetShip = playerShip;
+        this.gameMGR = gameMGR;
         base.init(health);
 
     }
@@ -44,7 +45,7 @@ public class EnemyShip : AbstractShip
         print(targetPos);
         Vector3 AvoidanceForce =  CalculateObstacleAvoidanceForce();
 
-        engineForce = ((targetPos - transform.position) * targetProximityFactor  + AvoidanceForce) *speed;
+        engineForce = ((targetPos - transform.position) * targetProximityFactor  + AvoidanceForce).normalized *speed;
     }
 
     private Vector3 CalculateObstacleAvoidanceForce()
@@ -53,10 +54,10 @@ public class EnemyShip : AbstractShip
         Collider[] collidersInRegion = Physics.OverlapSphere(transform.position, avoidanceRadius);
         foreach(Collider col in collidersInRegion)
         {
-            if (!ReferenceEquals(col.gameObject, TargetShip.gameObject))
-            {
+            //if (!ReferenceEquals(col.gameObject, TargetShip.gameObject))
+            //{
                 totalForce += (transform.position - col.transform.position) * avoidanceFactor;
-            }
+            //}
         }
         return totalForce;
     }

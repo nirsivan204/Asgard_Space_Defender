@@ -12,17 +12,19 @@ public class EnemiesSpawner : AbstractSpawner
     private IEnumerator spawningCoroutine;
     private int enemiesPerSpawn;
     private PlayerShip playerShip;
+    private GameMGR gameMGR;
 
     public UnityEvent OnEnemyDestroyed { get; } = new UnityEvent();
 
 
-    public void init(PlayerShip player,int timeBetweenSpawns, int MaxNumOfEnemies,int enemyHealth, int enemiesPerSpawn)
+    public void init(PlayerShip player, GameMGR gameMGR, int timeBetweenSpawns, int MaxNumOfEnemies,int enemyHealth, int enemiesPerSpawn)
     {
         this.timeBetweenSpawns = timeBetweenSpawns;
         this.MaxNumOfEnemies = MaxNumOfEnemies;
         this.enemyHealth = enemyHealth;
         this.enemiesPerSpawn = enemiesPerSpawn;
         this.playerShip = player;
+        this.gameMGR = gameMGR;
     }
     private void EnemyDestroyed()
     {
@@ -57,7 +59,7 @@ public class EnemiesSpawner : AbstractSpawner
                 foreach (GameObject enemy in enemiesCreated)
                 {
                     EnemyShip enemyClone = enemy.GetComponent<EnemyShip>();
-                    enemyClone.init(playerShip, enemyHealth);
+                    enemyClone.init(playerShip,this.gameMGR, enemyHealth);
                     enemyClone.OnKillEvent.AddListener(EnemyDestroyed);
                     totalAliveEnemies++;
                 }

@@ -54,13 +54,10 @@ MonoBehaviour:
   rb: {fileID: 1670538198507704541}
   forwardSpeed: 0
   weapon: {fileID: 5213473435981884383}
-  turnRate: 0
-  health: 0
   maxHealth: 0
   gameMGR: {fileID: 0}
   mesh: {fileID: 4835589370930165582}
   heading: {fileID: 2416209105043670894}
-  engineForce: {x: 0, y: 0, z: 0}
   OnKillEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -325,8 +322,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heading: {fileID: 5213473436315701356}
   damage: 1
-  fireRate: 0.5
-  shootingSpeed: 50
+  fireRate: 0.3
+  shootingSpeed: 75
   bullet: {fileID: 3291252703824821333, guid: c8052641cd29a5746a5bf83272aaa1e3, type: 3}
 --- !u!1 &5213473436315701355
 GameObject:
