@@ -838,16 +838,16 @@ MonoBehaviour:
   playerController: {fileID: 2027608300}
   cameraMGR: {fileID: 1471637302}
   uiMGR: {fileID: 1818672704}
-  killsToWin: 5
-  playerStartingHealth: 50
+  killsToWin: 10
+  playerStartingHealth: 30
   astroidMGR: {fileID: 1365597247}
   enemiesSpawner: {fileID: 1772241493}
   MaxNumOfEnemies: 5
   enemyHealth: 1
   enemiesPerSpawn: 1
   timeBetweenSpawns: 3
-  minimumVelocity: 20
-  maximumVelocity: 200
+  minimumAstroidVelocity: 20
+  maximumAstroidVelocity: 200
   minSize: 1
   maxSize: 3
 --- !u!1 &782530931

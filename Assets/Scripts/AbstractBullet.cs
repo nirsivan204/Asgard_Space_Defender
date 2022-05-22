@@ -7,9 +7,8 @@ public class AbstractBullet : MonoBehaviour
     [SerializeField] int damage;
     protected float speed;
     protected Vector3 heading;
-    protected float lifeSpan;
+    protected float lifeSpan = 100;
     protected float timeLived;
-    //[SerializeField] float maxSpeed;
     [SerializeField] protected Rigidbody rb;
     [SerializeField] Transform weaponPosition;
     [SerializeField] AbstractShip shooter;
@@ -18,7 +17,7 @@ public class AbstractBullet : MonoBehaviour
     {
         speed = bulletSpeed;
         heading = direction;
-        rb.velocity = speed * direction.normalized;// + shooter.GetComponent<Rigidbody>().velocity;
+        rb.velocity = speed * direction.normalized;
         timeLived = 0;
         this.shooter = shooter;
         this.damage = damage;
@@ -43,5 +42,14 @@ public class AbstractBullet : MonoBehaviour
         {
             transform.LookAt(transform.position + rb.velocity);
         }
+    }
+
+    protected void Update()
+    {
+        if (lifeSpan > 0 && timeLived >= lifeSpan)
+        {
+            Destroy(gameObject);
+        }
+        timeLived += Time.deltaTime;
     }
 }

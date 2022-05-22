@@ -24,12 +24,10 @@ public class GameMGR : MonoBehaviour
     [SerializeField] private int enemiesPerSpawn;
     [SerializeField] private int timeBetweenSpawns;
 
-    [SerializeField] float minimumVelocity;
-    [SerializeField] float maximumVelocity;
+    [SerializeField] float minimumAstroidVelocity;
+    [SerializeField] float maximumAstroidVelocity;
     [SerializeField] float minSize;
     [SerializeField] float maxSize;
-
-    //public float ArenaRadius { get => arenaRadius; set => arenaRadius = value; }
 
     private void Start()
     {
@@ -45,7 +43,7 @@ public class GameMGR : MonoBehaviour
         player.OnKillEvent.AddListener(OnPlayerShipDestroyed);
         playerController.changePOVEvent.AddListener(ChangePointOfView);
         enemiesSpawner.init(this.player,this,timeBetweenSpawns,MaxNumOfEnemies,enemyHealth,enemiesPerSpawn);
-        astroidMGR.init(minimumVelocity,maximumVelocity,minSize,maxSize);
+        astroidMGR.init(minimumAstroidVelocity,maximumAstroidVelocity,minSize,maxSize);
         enemiesSpawner.OnEnemyDestroyed.AddListener(OnEnemyShipDestroyed);
     }
 
@@ -54,9 +52,9 @@ public class GameMGR : MonoBehaviour
         cameraMGR.ToggleOverviewCamera();
         uiMGR.ShowControls(true);
         StartCoroutine(uiMGR.StartTimer(3,"GO!"));
-        musicMGR.Play_Sound(MusicMGR.SoundTypes.Launch);
+        musicMGR.PlaySound(MusicMGR.SoundTypes.Launch);
         yield return new WaitForSeconds(3);
-        musicMGR.Play_Sound(MusicMGR.SoundTypes.BG_Music);
+        musicMGR.PlaySound(MusicMGR.SoundTypes.BG_Music);
         cameraMGR.ToggleOverviewCamera();
         uiMGR.ShowControls(false);
         player.StartMoving();
@@ -83,7 +81,7 @@ public class GameMGR : MonoBehaviour
             if (numOfKills >= killsToWin)
             {
                 StartCoroutine(EndGame());
-                musicMGR.Play_Sound(MusicMGR.SoundTypes.Win);
+                musicMGR.PlaySound(MusicMGR.SoundTypes.Win);
                 uiMGR.OnLevelFinish(true);
             }
         }
@@ -92,7 +90,7 @@ public class GameMGR : MonoBehaviour
     private void OnPlayerShipDestroyed()
     {
         ChangeToOverviewCamera();
-        musicMGR.Play_Sound(MusicMGR.SoundTypes.Lose);
+        musicMGR.PlaySound(MusicMGR.SoundTypes.Lose);
         StartCoroutine(EndGame());
         uiMGR.OnLevelFinish(false);
     }

@@ -6,8 +6,6 @@ public class EffectBehaviour : MonoBehaviour
 {
     [SerializeField] float lifeSpan;
     float timeLived;
-
-    // Update is called once per frame
     void Update()
     {
         if (lifeSpan > 0 && timeLived >= lifeSpan)

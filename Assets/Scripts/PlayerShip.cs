@@ -15,7 +15,6 @@ public class PlayerShip : AbstractShip
     [SerializeField] GameObject thrustEffect;
     [SerializeField] float thrustEffectScalingFactor;
     Vector3 thrustEffectStartingSize;
-    //   int inversionFactor;
 
     public class UnityEventInt : UnityEvent<int> { };
 
@@ -25,7 +24,6 @@ public class PlayerShip : AbstractShip
     {
         base.init(health);
         playerController = controller;
-        //inversionFactor = playerController.InversionFactor;
         playerController.fireEvent.AddListener(Shoot);
         thrustEffectStartingSize = thrustEffect.transform.localScale;
         Aim();
@@ -39,10 +37,6 @@ public class PlayerShip : AbstractShip
             movementX = playerController.movementX;
             movementZ = playerController.movementZ;
             heading.transform.localPosition = Vector3.MoveTowards(heading.transform.localPosition, new Vector3(movementX, heading.localPosition.y, movementY), Time.fixedDeltaTime * 3);
-            /*        if(transform.position.magnitude > gameMGR.ArenaRadius)
-                    {
-                        transform.position = -transform.position;
-                    }*/
             base.FixedUpdate();
         }
 
@@ -56,8 +50,6 @@ public class PlayerShip : AbstractShip
         engineForce = transform.up * activeForwardSpeed;
 
         base.Update();
-        //print(movementZ);
-
     }
 
     private void UpdateThrustEffect(float movementZ)
@@ -85,7 +77,7 @@ public class PlayerShip : AbstractShip
 
     protected override void Aim()
     {
-        weapon.Heading.localPosition = (weapon.transform.position + transform.up).normalized;
+        weapon.Heading.position = weapon.transform.position + transform.up;
     }
 
     public override void Kill()

@@ -321,7 +321,7 @@ MonoBehaviour:
   heading: {fileID: 5213473436315701356}
   damage: 1
   fireRate: 0.3
-  bulletSpeed: 175
+  bulletSpeed: 200
   bullet: {fileID: 3291252703824821333, guid: c8052641cd29a5746a5bf83272aaa1e3, type: 3}
 --- !u!1 &5213473436315701355
 GameObject:

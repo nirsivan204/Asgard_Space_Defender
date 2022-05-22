@@ -36,7 +36,7 @@ public abstract class AbstractShip : MonoBehaviour, IDamagable, IShooter
     public virtual void Hurt(int amount)
     {
         health -= amount;
-        gameMGR.musicMGR.Play_Sound(MusicMGR.SoundTypes.ShipHurt);
+        gameMGR.musicMGR.PlaySound(MusicMGR.SoundTypes.ShipHurt);
         if (health <= 0)
         {
             Kill();
@@ -64,8 +64,8 @@ public abstract class AbstractShip : MonoBehaviour, IDamagable, IShooter
         {
             isKilled = true;
             canMove = false;
-            gameMGR.particleMGR.Play_Effect(ParticleMGR.ParticleTypes.Explosion, transform.position);
-            gameMGR.musicMGR.Play_Sound(MusicMGR.SoundTypes.Boom);
+            gameMGR.particleMGR.PlayEffect(ParticleMGR.ParticleTypes.Explosion, transform.position);
+            gameMGR.musicMGR.PlaySound(MusicMGR.SoundTypes.Boom);
             print("kill");
             OnKillEvent.Invoke();
         }
@@ -86,33 +86,10 @@ public abstract class AbstractShip : MonoBehaviour, IDamagable, IShooter
         if (canMove)
         {
             rb.AddForce(engineForce);
-            if(this.GetType() == typeof(PlayerShip)){
-                print("forwardspeed = " + rb.velocity);
-                print("speed = " + rb.velocity.magnitude);
-            }
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
         }
     }
-    /*
-        protected virtual void FixedUpdate()
-        {
-            Vector3 movement = new Vector3(movementX, 0, movementY*inversionFactor);
-            //if(rb.velocity.magnitude <= maxSpeed)
-           // {
-                rb.AddForce(movement * speed * rb.mass);
-                rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-           // }
-    //        rb.AddForce(movement * speed * rb.mass);
 
-            //rb.AddForce(movement)
-            //transform.Rotate(transform.forward, -movementX*turnRate);
-            //transform.Rotate(transform.right, -movementY * turnRate);
-
-            //transform.eulerAngles += -turnRate * Vector3.Cross(movementX*Vector3.right, transform.up);
-            //transform.eulerAngles += -turnRate * Vector3.Cross(movementY *Vector3.forward, transform.up);
-
-            transform.position += transform.up * forwardSpeed / 10;
-        }*/
     protected abstract void Aim();
 
     public void OnCollisionEnter(Collision collision)

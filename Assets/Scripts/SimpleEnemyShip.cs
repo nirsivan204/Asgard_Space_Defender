@@ -10,12 +10,6 @@ public class SimpleEnemyShip : AbstractEnemyShip
     [SerializeField] private float avoidanceFactor;
     [SerializeField] private float targetProximityFactor;
 
-
-/*    protected override void Update()
-    {
-        base.Update();
-    }*/
-
     protected override void CalculateNextMovement()
     {
         Vector3 targetPos = TargetShip.transform.position + (transform.position - TargetShip.transform.position).normalized * offsetFactor ;
@@ -30,17 +24,14 @@ public class SimpleEnemyShip : AbstractEnemyShip
         Collider[] collidersInRegion = Physics.OverlapSphere(transform.position, avoidanceRadius);
         foreach(Collider col in collidersInRegion)
         {
-            //if (!ReferenceEquals(col.gameObject, TargetShip.gameObject))
-            //{
-                totalForce += (transform.position - col.transform.position) * avoidanceFactor;
-            //}
+            totalForce += (transform.position - col.transform.position) * avoidanceFactor;
         }
         return totalForce;
     }
 
     protected override void Aim()
     {
-        weapon.Heading.position = (TargetShip.transform.position - weapon.transform.position).normalized - rb.velocity/((Cannon)weapon).BulletSpeed; // calculating considering self velocity and bullet velocity
+        weapon.Heading.position = (TargetShip.transform.position + weapon.transform.position)/2;
     }
 
 }

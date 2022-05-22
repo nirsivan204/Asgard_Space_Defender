@@ -59,7 +59,7 @@ public class MusicMGR : MonoBehaviour
         Music,
     }
 
-    public void Play_Sound(SoundTypes soundType, bool isLoop = false)
+    public void PlaySound(SoundTypes soundType, bool isLoop = false)
     {
         AudioClip clip = GetAudioClip(soundType);
 
@@ -67,25 +67,25 @@ public class MusicMGR : MonoBehaviour
 
         source.loop = isLoop;
 
-        Play_Sound(clip, source);
+        PlaySound(clip, source);
 
     }
 
-    public void Stop_Sound(SoundTypes soundType)
+    public void StopSound(SoundTypes soundType)
     {
         AudioSource source = GetAudioSource(soundType);
 
-        Stop_Sound(source);
+        StopSound(source);
 
     }
 
-    private void Play_Sound(AudioClip clip, AudioSource source)
+    private void PlaySound(AudioClip clip, AudioSource source)
     {
         source.clip = clip;
         source.Play();
     }
 
-    private void Stop_Sound(AudioSource source)
+    private void StopSound(AudioSource source)
     {
         source.Stop();
     }
