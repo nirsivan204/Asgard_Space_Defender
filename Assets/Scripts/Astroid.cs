@@ -17,7 +17,7 @@ public class Astroid : MonoBehaviour
         IDamagable attribute = other.gameObject.GetComponent(typeof(IDamagable)) as IDamagable;
         if (attribute != null)
         {
-            attribute.hurt(damage);
+            attribute.Hurt(damage);
         }
     }
 }

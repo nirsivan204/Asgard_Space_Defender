@@ -6,14 +6,14 @@ using UnityEngine;
 public class MusicMGR : MonoBehaviour
 {
     [Serializable]
-    public class SoundType_And_Ref
+    public class SoundTypeAndRef
     {
         public SoundTypes SoundType;
         public AudioClip AudioClipRef;
     }
 
     [Serializable]
-    public class SoundSource_And_Ref
+    public class SoundSourceAndRef
     {
         public AudioSourceTypes SourceType;
         public AudioSource AudioSourceRef;
@@ -21,50 +21,49 @@ public class MusicMGR : MonoBehaviour
 
 
     [SerializeField]
-    private List<SoundType_And_Ref> SoundType_And_Ref_List = new List<SoundType_And_Ref>();
+    private List<SoundTypeAndRef> SoundTypeAndRefList = new List<SoundTypeAndRef>();
 
     [SerializeField]
-    private List<SoundSource_And_Ref> SoundSource_And_Ref_List = new List<SoundSource_And_Ref>();
+    private List<SoundSourceAndRef> SoundSourceAndRefList = new List<SoundSourceAndRef>(); // should be a dictionary for better run time
 
 
     public enum SoundTypes
     {
         None = 0,
+        //ships sound effects
 
-        mixerRun = 1,
-        mixerEnd = 2,
+        CannonShoot = 1,
+        ShipHurt = 2,
+
+        //other sound effects
+        Boom = 101,
 
         // UI_Sounds
-        Click_01 = 100,
 
         // Gameplay Sounds
-        SUCCESS = 201,
-        FAIL = 202,
+        Win = 301,
+        Lose = 302,
+        Launch = 303,
         // Music
-        BG_Music_1 = 300,
-        BG_Music_2 = 301,
+        BG_Music = 400,
         //other
     }
 
     public enum AudioSourceTypes
     {
         None,
-        Mixer,
+        ShipEffects,
+        SFX,
         UI,
         Gameplay,
         Music,
     }
 
-    internal void Init()
-    {
-
-    }
-
     public void Play_Sound(SoundTypes soundType, bool isLoop = false)
     {
-        AudioClip clip = Get_AudioClip_Of(soundType);
+        AudioClip clip = GetAudioClip(soundType);
 
-        AudioSource source = Get_AudioSource_Of(soundType);
+        AudioSource source = GetAudioSource(soundType);
 
         source.loop = isLoop;
 
@@ -74,7 +73,7 @@ public class MusicMGR : MonoBehaviour
 
     public void Stop_Sound(SoundTypes soundType)
     {
-        AudioSource source = Get_AudioSource_Of(soundType);
+        AudioSource source = GetAudioSource(soundType);
 
         Stop_Sound(source);
 
@@ -83,8 +82,6 @@ public class MusicMGR : MonoBehaviour
     private void Play_Sound(AudioClip clip, AudioSource source)
     {
         source.clip = clip;
-        source.pitch = 1;
-
         source.Play();
     }
 
@@ -94,46 +91,48 @@ public class MusicMGR : MonoBehaviour
     }
 
 
-    private AudioSource Get_AudioSource_Of(SoundTypes soundType)
+    private AudioSource GetAudioSource(SoundTypes soundType)
     {
         switch (soundType)
         {
             case SoundTypes.None:
                 break;
-            case SoundTypes.mixerRun:
-            case SoundTypes.mixerEnd:
-                return Get_AudioSource_By_Type(AudioSourceTypes.Mixer);
-            case SoundTypes.Click_01:
-                return Get_AudioSource_By_Type(AudioSourceTypes.UI);
-            case SoundTypes.BG_Music_1:
-            case SoundTypes.BG_Music_2:
-                return Get_AudioSource_By_Type(AudioSourceTypes.Music);
+            case SoundTypes.Boom:
+                return GetAudioSourceByType(AudioSourceTypes.SFX);
+            case SoundTypes.CannonShoot:
+            case SoundTypes.ShipHurt:
+                return GetAudioSourceByType(AudioSourceTypes.ShipEffects);
+            case SoundTypes.BG_Music:
+                return GetAudioSourceByType(AudioSourceTypes.Music);
+            case SoundTypes.Win:
+            case SoundTypes.Lose:
+            case SoundTypes.Launch:
             default:
-                return Get_AudioSource_By_Type(AudioSourceTypes.Gameplay);
+                return GetAudioSourceByType(AudioSourceTypes.Gameplay);
         }
 
         return null;
     }
 
-    private AudioSource Get_AudioSource_By_Type(AudioSourceTypes audioSourceType)
+    private AudioSource GetAudioSourceByType(AudioSourceTypes audioSourceType)
     {
-        for (int i = 0; i < SoundSource_And_Ref_List.Count; i++)
+        for (int i = 0; i < SoundSourceAndRefList.Count; i++)
         {
-            if (SoundSource_And_Ref_List[i].SourceType == audioSourceType)
+            if (SoundSourceAndRefList[i].SourceType == audioSourceType)
             {
-                return SoundSource_And_Ref_List[i].AudioSourceRef;
+                return SoundSourceAndRefList[i].AudioSourceRef;
             }
         }
 
         return null;
     }
 
-    private AudioClip Get_AudioClip_Of(SoundTypes soundType)
+    private AudioClip GetAudioClip(SoundTypes soundType)
     {
-        for (int i = 0; i < SoundType_And_Ref_List.Count; i++)
+        for (int i = 0; i < SoundTypeAndRefList.Count; i++)
         {
-            if (SoundType_And_Ref_List[i].SoundType == soundType)
-                return SoundType_And_Ref_List[i].AudioClipRef;
+            if (SoundTypeAndRefList[i].SoundType == soundType)
+                return SoundTypeAndRefList[i].AudioClipRef;
         }
 
         return null;
@@ -141,7 +140,7 @@ public class MusicMGR : MonoBehaviour
 
     public void AddPitch(SoundTypes soundType, float addedPitch)
     {
-        AudioSource source = Get_AudioSource_Of(soundType);
+        AudioSource source = GetAudioSource(soundType);
         source.pitch += addedPitch;
     }
 }

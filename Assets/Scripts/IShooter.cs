@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IShooter
 {
-    public void shoot();
-    public void reload();
+    public void Shoot();
+    public void Reload();
 }

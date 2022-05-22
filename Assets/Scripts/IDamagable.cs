@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IDamagable
 {
-    public void kill();
-    public void heal(int amount);
-    public void hurt(int amount);
+    public void Kill();
+    public void Heal(int amount);
+    public void Hurt(int amount);
 }

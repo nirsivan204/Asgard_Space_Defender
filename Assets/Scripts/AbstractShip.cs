@@ -10,16 +10,17 @@ public abstract class AbstractShip : MonoBehaviour, IDamagable, IShooter
     [SerializeField] protected float speed;
     [SerializeField] protected float maxSpeed;
     [SerializeField] protected Rigidbody rb;
-    [SerializeField] protected float forwardSpeed;
     [SerializeField] protected AbstractWeapon weapon;
+    protected bool canMove = false;
     protected int health;
-    [SerializeField] protected int maxHealth;
+    protected int maxHealth;
     [SerializeField] protected GameMGR gameMGR;
-    [SerializeField] protected Transform mesh;
+    [SerializeField] protected GameObject mesh;
     [SerializeField] protected Transform heading;
     protected Vector3 engineForce;
     public UnityEvent OnKillEvent;
-    public void heal(int amount)
+    private bool isKilled = false;
+    public void Heal(int amount)
     {
         if (health + amount > maxHealth)
         {
@@ -32,50 +33,65 @@ public abstract class AbstractShip : MonoBehaviour, IDamagable, IShooter
         }
     }
 
-    public void hurt(int amount)
+    public virtual void Hurt(int amount)
     {
-         health -= amount;
+        health -= amount;
+        gameMGR.musicMGR.Play_Sound(MusicMGR.SoundTypes.ShipHurt);
         if (health <= 0)
         {
-            kill();
+            Kill();
         }
     }
 
     protected virtual void FixedUpdate()
     {
-        mesh.LookAt(heading);
+        if (canMove)
+        {
+            mesh.transform.LookAt(heading);
+        }
     }
 
     protected void init(int health)
     {
-        Aim();
-        weapon.init(this);
+        weapon.init(this,gameMGR);
         this.maxHealth = health;
         this.health = health;
     }
 
-    public virtual void kill()
+    public virtual void Kill()
     {
-        gameMGR.particleMGR.Play_Effect(ParticleMGR.ParticleTypes.Explosion,transform.position);
-        print("kill");
-        OnKillEvent.Invoke();
-        Destroy(gameObject);
+        if (!isKilled)
+        {
+            isKilled = true;
+            canMove = false;
+            gameMGR.particleMGR.Play_Effect(ParticleMGR.ParticleTypes.Explosion, transform.position);
+            gameMGR.musicMGR.Play_Sound(MusicMGR.SoundTypes.Boom);
+            print("kill");
+            OnKillEvent.Invoke();
+        }
+
     }
 
-    public virtual void reload()
+    public virtual void Reload()
     {
     }
 
-    public void shoot()
+    public void Shoot()
     {
-        weapon.shoot();
+        weapon.Shoot();
     }
 
     protected virtual void Update()
     {
-        rb.AddForce(engineForce);
-        //print("forwardspeed = " + rb.velocity);
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+        if (canMove)
+        {
+            rb.AddForce(engineForce);
+            if(this.GetType() == typeof(PlayerShip)){
+                print("forwardspeed = " + rb.velocity);
+                print("speed = " + rb.velocity.magnitude);
+            }
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+        }
     }
     /*
         protected virtual void FixedUpdate()
@@ -104,8 +120,20 @@ public abstract class AbstractShip : MonoBehaviour, IDamagable, IShooter
         AbstractShip OtherShip = collision.gameObject.GetComponent<AbstractShip>();
         if (OtherShip != null)
         {
-            OtherShip.kill();
-            kill();
+            OtherShip.Kill();
+            Kill();
         }
+    }
+
+    public virtual void StartMoving()
+    {
+        canMove = true;
+        rb.constraints = RigidbodyConstraints.None;
+    }
+
+    public virtual void StopMoving()
+    {
+        canMove = false;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 }

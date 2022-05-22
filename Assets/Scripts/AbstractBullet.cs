@@ -12,16 +12,13 @@ public class AbstractBullet : MonoBehaviour
     //[SerializeField] float maxSpeed;
     [SerializeField] protected Rigidbody rb;
     [SerializeField] Transform weaponPosition;
-    [SerializeField] GameObject shooter;
+    [SerializeField] AbstractShip shooter;
 
-    public virtual void init(float bulletSpeed, Vector3 direction,GameObject shooter, int damage)
+    public virtual void init(float bulletSpeed, Vector3 direction, AbstractShip shooter, int damage)
     {
         speed = bulletSpeed;
         heading = direction;
-        if (rb)
-        {
-            rb.velocity = speed * direction.normalized;
-        }
+        rb.velocity = speed * direction.normalized + shooter.GetComponent<Rigidbody>().velocity;
         timeLived = 0;
         this.shooter = shooter;
         this.damage = damage;
@@ -29,13 +26,12 @@ public class AbstractBullet : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if(shooter == null || !ReferenceEquals(other.gameObject,shooter))
+        if(shooter == null || !ReferenceEquals(other.gameObject,shooter.gameObject))
         {
             IDamagable attribute = other.gameObject.GetComponent(typeof(IDamagable)) as IDamagable;
             if (attribute != null)
             {
-                attribute.hurt(damage);
-                print(attribute);
+                attribute.Hurt(damage);
                 Destroy(gameObject);
             }
         }
@@ -43,7 +39,6 @@ public class AbstractBullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //rb.AddForce(speed * heading);
         if (rb)
         {
             transform.LookAt(transform.position + rb.velocity);

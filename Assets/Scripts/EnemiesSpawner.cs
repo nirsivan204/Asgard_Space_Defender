@@ -58,9 +58,10 @@ public class EnemiesSpawner : AbstractSpawner
                 SpawnAroundPlayer(Mathf.Min(enemiesPerSpawn, MaxNumOfEnemies - totalAliveEnemies), out enemiesCreated);
                 foreach (GameObject enemy in enemiesCreated)
                 {
-                    EnemyShip enemyClone = enemy.GetComponent<EnemyShip>();
+                    SimpleEnemyShip enemyClone = enemy.GetComponent<SimpleEnemyShip>();
                     enemyClone.init(playerShip,this.gameMGR, enemyHealth);
                     enemyClone.OnKillEvent.AddListener(EnemyDestroyed);
+                    enemyClone.StartMoving();
                     totalAliveEnemies++;
                 }
             }

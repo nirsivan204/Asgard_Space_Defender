@@ -4,26 +4,21 @@ using UnityEngine;
 
 public class Cannon : AbstractWeapon
 {
-    [SerializeField] float shootingSpeed;
-    private AbstractShip ship;
+    [SerializeField] float bulletSpeed;
     [SerializeField] AbstractBullet bullet;
     protected AbstractBullet lastBullet;
-    // private Rigidbody shipRB;
 
-    public override void init(AbstractShip ship)
-    {
-        this.ship = ship;
-        //shipRB = ship.GetComponent<Rigidbody>();
-    }
+    public float BulletSpeed { get => bulletSpeed; set => bulletSpeed = value; }
 
-    public override void shoot()
+    public override void Shoot()
     {
         if (canShoot)
         {
-            base.shoot();
+            base.Shoot();
             //((CannonBullet)lastBullet).init(shipRB.velocity, shootingSpeed,heading.position-transform.position);
             lastBullet = Instantiate(bullet, transform.position, transform.rotation);
-            lastBullet.init(shootingSpeed, heading.position - transform.position, ship.gameObject, damage);
+            lastBullet.init(bulletSpeed, heading.position - transform.position, ship, damage);
+            gameMGR.musicMGR.Play_Sound(MusicMGR.SoundTypes.CannonShoot);
             //lastBullet.init(Heading.position, shootingSpeed + Vector3.Dot(shipRB.velocity,transform.up));
         }
     }

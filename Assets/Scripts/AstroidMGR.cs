@@ -11,8 +11,8 @@ public class AstroidMGR : AbstractSpawner
     [SerializeField] float minimumVelocity;
     [SerializeField] float maximumVelocity;
     int astroidDamage = int.MaxValue;
-    [SerializeField] float minSize;
-    [SerializeField] float maxSize;
+    float minSize;
+    float maxSize;
 
     public void init(float minimumVelocity,float maximumVelocity,float minSize, float maxSize)
     {

@@ -3,46 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyShip : AbstractShip
+public class SimpleEnemyShip : AbstractEnemyShip
 {
-    [SerializeField] float range;
-    [SerializeField] protected PlayerShip TargetShip;
-    Vector3 targetPos;
     [SerializeField] float offsetFactor;
     [SerializeField] private float avoidanceRadius;
     [SerializeField] private float avoidanceFactor;
     [SerializeField] private float targetProximityFactor;
 
-    protected override void FixedUpdate()
-    {
-        CalculateNextMovement();
-        if (isTargetNearby())
-        {
-            Aim();
-            shoot();
 
-        }
-        base.FixedUpdate();
-
-    }
-
-    public void init(PlayerShip playerShip, GameMGR gameMGR, int health)
-    {
-        this.TargetShip = playerShip;
-        this.gameMGR = gameMGR;
-        base.init(health);
-
-    }
-
-    protected override void Update()
+/*    protected override void Update()
     {
         base.Update();
-    }
+    }*/
 
-    private void CalculateNextMovement()
+    protected override void CalculateNextMovement()
     {
-        targetPos = TargetShip.transform.position + (transform.position - TargetShip.transform.position).normalized * offsetFactor ;
-        print(targetPos);
+        Vector3 targetPos = TargetShip.transform.position + (transform.position - TargetShip.transform.position).normalized * offsetFactor ;
         Vector3 AvoidanceForce =  CalculateObstacleAvoidanceForce();
 
         engineForce = ((targetPos - transform.position) * targetProximityFactor  + AvoidanceForce).normalized *speed;
@@ -62,14 +38,9 @@ public class EnemyShip : AbstractShip
         return totalForce;
     }
 
-    private bool isTargetNearby()
-    {
-        return Vector3.Distance(transform.position, TargetShip.transform.position) <= range;
-    }
-
     protected override void Aim()
     {
-        weapon.Heading.position = (weapon.transform.position + TargetShip.transform.position) / 2;
+        weapon.Heading.position = (weapon.transform.position + TargetShip.transform.position) / 2 - rb.velocity/((Cannon)weapon).BulletSpeed; // calculating considering self velocity and bullet velocity
     }
 
 }
