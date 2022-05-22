@@ -85,7 +85,7 @@ public class PlayerShip : AbstractShip
 
     protected override void Aim()
     {
-        weapon.Heading.position = weapon.transform.position + transform.up;
+        weapon.Heading.localPosition = (weapon.transform.position + transform.up).normalized;
     }
 
     public override void Kill()

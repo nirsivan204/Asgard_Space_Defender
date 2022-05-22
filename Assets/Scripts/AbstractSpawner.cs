@@ -21,11 +21,7 @@ public class AbstractSpawner : MonoBehaviour
                 randomPos = playerTransform.position + Random.insideUnitSphere * creationRadius;
 
             } while (Vector3.Distance(randomPos, playerTransform.position) < innerCreationRadius);
-            /*            Astroid clone = Instantiate(objectToSpawn, randomPos, Quaternion.Euler(Random.insideUnitSphere*360)).GetComponent<Astroid>();
-            */
             GameObject clone = Instantiate(objectToSpawn, randomPos, Quaternion.Euler(Random.insideUnitSphere * 360));
-/*            astroidClone.init(astroidDamage,Random.Range(minSize,MaxSize));
-*/
             elements.Add(clone);
         }
 

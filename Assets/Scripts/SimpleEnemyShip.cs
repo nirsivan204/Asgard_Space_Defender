@@ -40,7 +40,7 @@ public class SimpleEnemyShip : AbstractEnemyShip
 
     protected override void Aim()
     {
-        weapon.Heading.position = (weapon.transform.position + TargetShip.transform.position) / 2 - rb.velocity/((Cannon)weapon).BulletSpeed; // calculating considering self velocity and bullet velocity
+        weapon.Heading.position = (TargetShip.transform.position - weapon.transform.position).normalized - rb.velocity/((Cannon)weapon).BulletSpeed; // calculating considering self velocity and bullet velocity
     }
 
 }

@@ -42,6 +42,7 @@ public class GameMGR : MonoBehaviour
         this.player.init(playerStartingHealth, playerController);
         player.OnLivesChangedEvent.AddListener(OnPlayerLivesChanged);
         uiMGR.SetLivesText(playerStartingHealth);
+        player.OnKillEvent.AddListener(OnPlayerShipDestroyed);
         playerController.changePOVEvent.AddListener(ChangePointOfView);
         enemiesSpawner.init(this.player,this,timeBetweenSpawns,MaxNumOfEnemies,enemyHealth,enemiesPerSpawn);
         astroidMGR.init(minimumVelocity,maximumVelocity,minSize,maxSize);
@@ -115,10 +116,6 @@ public class GameMGR : MonoBehaviour
                 lives = 0;
             }
             uiMGR.SetLivesText(lives);
-            if (lives <= 0)
-            {
-                OnPlayerShipDestroyed();
-            }
         }
     }
 

@@ -5,15 +5,16 @@ using UnityEngine;
 public class Astroid : MonoBehaviour
 {
     int damage;
-    public void init(int damage, float size)
+    [SerializeField] Rigidbody rb;
+    public void init(int damage, float size, Vector3 velocity)
     {
         this.damage = damage;
         this.transform.localScale *= size ;
+        rb.velocity = velocity;
     }
 
     public void OnCollisionEnter(Collision other)
     {
-        print("collide");
         IDamagable attribute = other.gameObject.GetComponent(typeof(IDamagable)) as IDamagable;
         if (attribute != null)
         {

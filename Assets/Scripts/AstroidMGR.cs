@@ -8,8 +8,8 @@ public class AstroidMGR : AbstractSpawner
     [SerializeField] int NumberOfAstroidsToCreate;
     [SerializeField] List<Vector3> createdAroundPosList;
     [SerializeField] float distanceRequiredToDelete;
-    [SerializeField] float minimumVelocity;
-    [SerializeField] float maximumVelocity;
+    float minimumVelocity;
+    float maximumVelocity;
     int astroidDamage = int.MaxValue;
     float minSize;
     float maxSize;
@@ -57,7 +57,7 @@ public class AstroidMGR : AbstractSpawner
             SpawnAroundPlayer(NumberOfAstroidsToCreate, out astroidsCreated);
             foreach (GameObject astroid in astroidsCreated)
             {
-                astroid.GetComponent<Astroid>().init(astroidDamage, Random.Range(minSize, maxSize));
+                astroid.GetComponent<Astroid>().init(astroidDamage, Random.Range(minSize, maxSize), Random.Range(minimumVelocity,maximumVelocity)* Random.insideUnitSphere);
             }
             createdAroundPosList.Add(playerTransform.position);
         }

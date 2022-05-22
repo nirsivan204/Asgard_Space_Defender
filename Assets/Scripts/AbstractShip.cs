@@ -121,8 +121,8 @@ public abstract class AbstractShip : MonoBehaviour, IDamagable, IShooter
         if (OtherShip != null)
         {
             OtherShip.Kill();
-            Kill();
         }
+        Kill();
     }
 
     public virtual void StartMoving()

@@ -18,7 +18,7 @@ public class AbstractBullet : MonoBehaviour
     {
         speed = bulletSpeed;
         heading = direction;
-        rb.velocity = speed * direction.normalized + shooter.GetComponent<Rigidbody>().velocity;
+        rb.velocity = speed * direction.normalized;// + shooter.GetComponent<Rigidbody>().velocity;
         timeLived = 0;
         this.shooter = shooter;
         this.damage = damage;
